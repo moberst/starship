@@ -119,10 +119,9 @@ pub fn get_prompt(context: Context) -> String {
     }
     write!(buf, "{}", ANSIStrings(&module_strings)).unwrap();
 
-    if context.target == Target::Right {
-        // right prompts generally do not allow newlines
-        buf = buf.replace('\n', "");
-    }
+    // Major Hack: Get rid of all newlines, to avoid annoying newline
+    // before the initial prompt.
+    buf = buf.replace('\n', "");
 
     // escape \n and ! characters for tcsh
     if let Shell::Tcsh = context.shell {
